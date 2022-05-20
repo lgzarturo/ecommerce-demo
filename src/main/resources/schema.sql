@@ -11,7 +11,7 @@ create table products (
     bar_code varchar(150) default '',
     price decimal(16, 2) default 0.0,
     stock int default 0,
-    status int default
+    status int default 0
 );
 
 create table clients (
@@ -41,6 +41,6 @@ create table shopping_products (
 );
 
 alter table products add foreign key (category_id) references categories(category_id);
-alter table shopping add foreign key (client_id) references shopping(id);
+alter table shopping add foreign key (client_id) references clients(id);
 alter table shopping_products add foreign key (shopping_id) references shopping(shopping_id);
 alter table shopping_products add foreign key (product_id) references products(product_id);
