@@ -16,14 +16,18 @@ class ProductService(private val productRepository: ProductRepository) : Product
     }
 
     override fun addProduct(product: Product): Product {
-        TODO("Not yet implemented")
+        return productRepository.save(product)
     }
 
     override fun updateProduct(id: Long, product: Product): Product {
-        TODO("Not yet implemented")
+        getProductById(id).ifPresent {
+            product.productId = id
+            productRepository.save(product)
+        }
+        return product
     }
 
     override fun deleteProduct(id: Long) {
-        TODO("Not yet implemented")
+        productRepository.deleteById(id)
     }
 }
