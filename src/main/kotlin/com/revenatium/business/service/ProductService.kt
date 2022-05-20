@@ -1,5 +1,6 @@
 package com.revenatium.business.service
 
+import com.revenatium.annotation.GetProductsByCategory
 import com.revenatium.model.Product
 import com.revenatium.repository.ProductRepository
 import org.slf4j.Logger
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service
 
 // Conexión con H2
 @Service
+@GetProductsByCategory
 class ProductService(private val productRepository: ProductRepository) : ProductInterface {
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)
