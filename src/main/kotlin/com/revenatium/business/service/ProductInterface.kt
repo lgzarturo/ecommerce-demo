@@ -5,6 +5,7 @@ import java.util.Optional
 
 interface ProductInterface {
     fun getProducts(): Iterable<Product>
+    fun getProductsByCategory(categoryId: Long): Iterable<Product>
     fun getProductById(id: Long): Product
     fun addProduct(product: Product): Product
     fun updateProduct(id: Long, product: Product): Product

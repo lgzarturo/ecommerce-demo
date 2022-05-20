@@ -15,6 +15,10 @@ class ProductService(private val productRepository: ProductRepository) : Product
         return productRepository.findAll()
     }
 
+    override fun getProductsByCategory(categoryId: Long): Iterable<Product> {
+        return productRepository.findByCategoryId(categoryId)
+    }
+
     override fun getProductById(id: Long): Product {
         return productRepository.findById(id).orElseThrow {
             IllegalArgumentException("Producto con el ID $id, no existe")

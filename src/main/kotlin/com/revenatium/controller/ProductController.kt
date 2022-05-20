@@ -22,6 +22,9 @@ class ProductController(
     @GetMapping
     fun list() = productService.getProducts()
 
+    @GetMapping("/category/{categoryId}")
+    fun listByCategory(@PathVariable categoryId: Long) = productService.getProductsByCategory(categoryId)
+
     @PostMapping
     fun create(@RequestBody product: Product) = productService.addProduct(product)
 
