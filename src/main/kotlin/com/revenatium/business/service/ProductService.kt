@@ -6,6 +6,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
+// Conexión con H2
 @Service
 class ProductService(private val productRepository: ProductRepository) : ProductInterface {
 
