@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController
 class ProductController(
     private val productService: ProductService
 ) {
-    private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping
     fun list() = productService.getProducts()
@@ -27,19 +26,12 @@ class ProductController(
     fun create(@RequestBody product: Product) = productService.addProduct(product)
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Long) = productService.getProductById(id).orElseThrow {
-        IllegalArgumentException("Producto con el ID $id, no existe")
-    }
+    fun getById(@PathVariable id: Long) = productService.getProductById(id)
 
     @PutMapping("/{id}")
     fun update(@PathVariable id: Long, @RequestBody product: Product) = productService.updateProduct(id, product)
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long) = try {
-        productService.deleteProduct(id)
-    } catch (e: IllegalArgumentException) {
-        log.error("Error al intentar borrar el producto con el ID $id, ya que no existe")
-        throw IllegalArgumentException("El producto con el ID $id no puede ser borrado")
-    }
+    fun delete(@PathVariable id: Long) = productService.deleteProduct(id)
 
 }
