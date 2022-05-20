@@ -16,7 +16,7 @@ class ProductService(private val productRepository: ProductRepository) : Product
     }
 
     override fun getProductsByCategory(categoryId: Long): Iterable<Product> {
-        return productRepository.findByCategoryId(categoryId)
+        return productRepository.traemeTodoPorElIdDeCategoria(categoryId)
     }
 
     override fun getProductById(id: Long): Product {

@@ -18,6 +18,5 @@ class StartupEvent(
         log.debug("Ejecutando evento al inicio de SpringBoot")
         productService.getProducts().forEach(::println)
         log.info("Fecha ${convertDate.createDateFromString("1983-01-17")}")
-        log.info("Fecha ${convertDate.createDateFromString("hola mundo")}")
     }
 }

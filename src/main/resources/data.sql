@@ -1,9 +1,16 @@
 insert into categories(description, status) values ( 'category1', 1 );
+insert into categories(description, status) values ( 'category2', 0 );
+insert into categories(description, status) values ( 'category3', 0 );
+insert into categories(description, status) values ( 'category4', 0 );
 
 insert into products(category_id, name, bar_code, price, stock, status) values ( 1, 'product1', 'abc1', 1.0, 1, 1);
-insert into products(category_id, name, bar_code, price, stock, status) values ( 1, 'product2', 'abc2', 2.0, 2, 1);
+insert into products(category_id, name, bar_code, price, stock, status) values ( 4, 'product2', 'abc2', 2.0, 2, 1);
 insert into products(category_id, name, bar_code, price, stock, status) values ( 1, 'product3', 'abc3', 3.0, 3, 1);
 insert into products(category_id, name, bar_code, price, stock, status) values ( 1, 'product4', 'abc4', 4.0, 4, 0);
+insert into products(category_id, name, bar_code, price, stock, status) values ( 2, 'product5', 'abc4', 4.0, 4, 0);
+insert into products(category_id, name, bar_code, price, stock, status) values ( 2, 'product6', 'abc4', 4.0, 4, 0);
+insert into products(category_id, name, bar_code, price, stock, status) values ( 2, 'product7', 'abc4', 4.0, 4, 0);
+insert into products(category_id, name, bar_code, price, stock, status) values ( 4, 'product8', 'abc4', 4.0, 4, 0);
 
 insert into clients(name, last_name, phone, direction, email) values ( 'client1', 'last_name', '1212', 'address', 'a@gmail.com' );
 insert into clients(name, last_name, phone, direction, email) values ( 'client2', 'last_name2', '7272', 'address', 'b@gmail.com' );
