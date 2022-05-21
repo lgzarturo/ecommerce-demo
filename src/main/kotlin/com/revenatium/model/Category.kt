@@ -11,5 +11,7 @@ data class Category(
     val id: Long,
     val description: String,
     @Column(name = "status")
-    val isActive: Boolean
+    val isActive: Boolean,
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    val products: List<Product>
 )

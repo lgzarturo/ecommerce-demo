@@ -4,6 +4,10 @@ import com.revenatium.annotation.ConvertToUppercase
 import com.revenatium.annotation.GetSpecificDate
 import com.revenatium.business.service.ProductService
 import com.revenatium.model.dto.ProductDto
+import com.revenatium.repository.CategoryRepository
+import com.revenatium.repository.ClientRepository
+import com.revenatium.repository.ShoppingProductRepository
+import com.revenatium.repository.ShoppingRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.context.event.ApplicationReadyEvent
@@ -13,13 +17,16 @@ import org.springframework.stereotype.Component
 @Component
 class StartupEvent(
     private val convertDate: ConvertDate,
-    private val productService: ProductService
+    private val productService: ProductService,
+    private val categoryRepository: CategoryRepository,
+    private val clientRepository: ClientRepository,
+    private val shoppingRepository: ShoppingRepository,
+    private val shoppingProductRepository: ShoppingProductRepository
     ) : ApplicationListener<ApplicationReadyEvent> {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
         log.debug("Ejecutando evento al inicio de SpringBoot")
-        productService.getProducts().forEach(::println)
         log.info("Fecha ${convertDate.createDateFromString("1983-01-17")}")
 
         convertDate.javaClass.declaredMethods.forEach {
@@ -49,5 +56,20 @@ class StartupEvent(
             }
             log.info("Producto convertido $productDto")
         }
+
+        log.info("Productos")
+        productService.getProducts().forEach(::println)
+        log.info("Cliente")
+        clientRepository.findAll().forEach(::println)
+        log.info("Categorías")
+        categoryRepository.findAll().forEach {
+            println(it)
+            it.products.forEach(::println)
+            println("--------------------------------")
+        }
+        log.info("Compras")
+        shoppingRepository.findAll().forEach(::println)
+        log.info("Compras y sus productos")
+        shoppingProductRepository.findAll().forEach(::println)
     }
 }
