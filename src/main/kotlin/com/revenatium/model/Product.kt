@@ -1,5 +1,7 @@
 package com.revenatium.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
 import java.math.BigDecimal
 import javax.persistence.*
 

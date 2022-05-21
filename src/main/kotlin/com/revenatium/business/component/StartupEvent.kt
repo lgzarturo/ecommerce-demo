@@ -6,7 +6,6 @@ import com.revenatium.business.service.ProductService
 import com.revenatium.model.dto.ProductDto
 import com.revenatium.repository.CategoryRepository
 import com.revenatium.repository.ClientRepository
-import com.revenatium.repository.ShoppingProductRepository
 import com.revenatium.repository.ShoppingRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,8 +19,7 @@ class StartupEvent(
     private val productService: ProductService,
     private val categoryRepository: CategoryRepository,
     private val clientRepository: ClientRepository,
-    private val shoppingRepository: ShoppingRepository,
-    private val shoppingProductRepository: ShoppingProductRepository
+    private val shoppingRepository: ShoppingRepository
     ) : ApplicationListener<ApplicationReadyEvent> {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
@@ -38,23 +36,27 @@ class StartupEvent(
             }
         }
 
-        productService.getProductById(1).let { product ->
-            log.info("Producto encontrado $product")
-            val productDto = ProductDto(
-                product.name,
-                product.price!!,
-                product.stock!!
-            )
-            productDto.javaClass.declaredFields.forEach { field ->
-                if (field.isAnnotationPresent(ConvertToUppercase::class.java)) {
-                    field.isAccessible = true
-                    val objectValue = field.get(productDto)
-                    if (objectValue is String) {
-                        field.set(productDto, objectValue.uppercase())
+        try {
+            productService.getProductById(1).let { product ->
+                log.info("Producto encontrado $product")
+                val productDto = ProductDto(
+                    product.name,
+                    product.price!!,
+                    product.stock!!
+                )
+                productDto.javaClass.declaredFields.forEach { field ->
+                    if (field.isAnnotationPresent(ConvertToUppercase::class.java)) {
+                        field.isAccessible = true
+                        val objectValue = field.get(productDto)
+                        if (objectValue is String) {
+                            field.set(productDto, objectValue.uppercase())
+                        }
                     }
                 }
+                log.info("Producto convertido $productDto")
             }
-            log.info("Producto convertido $productDto")
+        } catch (ignore: Exception) {
+            // ignorado
         }
 
         log.info("Productos")
@@ -68,8 +70,10 @@ class StartupEvent(
             println("--------------------------------")
         }
         log.info("Compras")
-        shoppingRepository.findAll().forEach(::println)
-        log.info("Compras y sus productos")
-        shoppingProductRepository.findAll().forEach(::println)
+        shoppingRepository.findAll().forEach {
+            println(it)
+            it.products?.forEach(::println)
+            println("--------------------------------")
+        }
     }
 }
