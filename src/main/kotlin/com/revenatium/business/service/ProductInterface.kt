@@ -1,7 +1,6 @@
 package com.revenatium.business.service
 
 import com.revenatium.model.Product
-import java.util.Optional
 
 interface ProductInterface {
     fun getProducts(): Iterable<Product>
