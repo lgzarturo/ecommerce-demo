@@ -1,5 +1,6 @@
 package com.revenatium.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -8,10 +9,11 @@ data class Category(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    val id: Long,
-    val description: String,
-    @Column(name = "status")
-    val isActive: Boolean,
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
-    val products: List<Product>
+    var id: Long? = null,
+    val description: String? = null,
+    @Column(name = "status", nullable = false)
+    val isActive: Boolean? = null,
+    @JsonIgnore
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = [CascadeType.REMOVE])
+    val products: List<Product> = emptyList()
 )

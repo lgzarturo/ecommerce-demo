@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -44,7 +45,10 @@ class ProductController(private val productRepository: ProductRepository) {
     fun listByCategory(@PathVariable categoryId: Long) = productInterface.getProductsByCategory(categoryId)
 
     @PostMapping
-    fun create(@RequestBody product: Product) = productInterface.addProduct(product)
+    fun create(@Valid @RequestBody product: Product) {
+        log.info("Mensaje de error")
+        productInterface.addProduct(product)
+    }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long) = productInterface.getProductById(id)

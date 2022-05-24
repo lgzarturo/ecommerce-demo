@@ -1,25 +1,29 @@
 package com.revenatium.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonInclude
+import org.hibernate.validator.constraints.Range
 import java.math.BigDecimal
 import javax.persistence.*
+import javax.validation.constraints.Max
+import javax.validation.constraints.NotEmpty
 
 @Entity
 @Table(name = "products")
-data class Product (
+class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var productId: Long? = null,
-    @ManyToOne(cascade = [CascadeType.PERSIST])
+    var productId: Long? = null
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = true)
-    var category: Category? = null,
-    var name: String? = null,
-    var barCode: String? = null,
-    var price: BigDecimal? = null,
-    var stock: Int? = null,
+    var category: Category? = null
+    @NotEmpty
+    var name: String? = null
+    @NotEmpty
+    var barCode: String? = null
+    @Range(min = 15, max = 1_000_000)
+    var price: BigDecimal? = null
+    @Max(10_000)
+    var stock: Int? = null
     var status: Boolean? = null
-) {
     override fun toString(): String {
         return "Product(productId:$productId, category:${category?.id}, name:$name)"
     }
