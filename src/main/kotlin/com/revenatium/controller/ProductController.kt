@@ -35,7 +35,7 @@ class ProductController(private val productRepository: ProductRepository) {
     fun list(@RequestParam(required = false) mongo: Boolean = false): Iterable<Product> {
         if (mongo) productInterface = ProductServiceAdditional()
         if (productInterface.javaClass.isAnnotationPresent(GetProductsByCategory::class.java)) {
-            log.info("Atrapamos la anotación ahora trae los productos de la categoría 1")
+            log.info("Atrapamos la anotación ahora trae los productos de la categoría 1 de prueba")
             return productInterface.getProductsByCategory(1)
         }
         return productInterface.getProducts()

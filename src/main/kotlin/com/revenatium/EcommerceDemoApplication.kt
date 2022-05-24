@@ -1,5 +1,6 @@
 package com.revenatium
 
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
@@ -7,5 +8,6 @@ import org.springframework.boot.runApplication
 class EcommerceDemoApplication
 
 fun main(args: Array<String>) {
-	runApplication<EcommerceDemoApplication>(*args)
+    val apc = SpringApplication.run(EcommerceDemoApplication::class.java, *args)
+    apc.beanDefinitionNames.forEach(::println)
 }

@@ -75,5 +75,6 @@ class StartupEvent(
             it.products?.forEach(::println)
             println("--------------------------------")
         }
+        log.info("Fin de StartupEvent")
     }
 }
