@@ -3,12 +3,17 @@ package com.revenatium.controller
 import com.revenatium.annotation.GetProductsByCategory
 import com.revenatium.business.service.ProductInterface
 import com.revenatium.business.service.ProductServiceAdditional
+import com.revenatium.controller.response.ErrorResponse
+import com.revenatium.exceptions.EntityNotExistException
 import com.revenatium.model.Product
+import com.revenatium.model.dto.ProductDto
 import com.revenatium.repository.ProductRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
@@ -39,6 +44,19 @@ class ProductController(private val productRepository: ProductRepository) {
     fun create(@Valid @RequestBody product: Product) {
         log.info("Mensaje de error")
         productInterface.addProduct(product)
+    }
+
+    @GetMapping("/get-algo")
+    fun getByAlgo(@RequestParam(required = false) id: Long?): ResponseEntity<Any> {
+        if (id == null) {
+            return ResponseEntity(ErrorResponse(HttpStatus.BAD_REQUEST, "El parámetro de id es requerido"), HttpStatus.BAD_REQUEST)
+        }
+        val product = productRepository.findById(id).orElse(null)
+        if (product == null) {
+            throw EntityNotExistException("Error del sistema")
+        }
+        val productDto = ProductDto(product.name, product.price!!, product.stock!!)
+        return ResponseEntity.ok(productDto)
     }
 
     @GetMapping("/{id}")
