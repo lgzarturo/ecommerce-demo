@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.*
 import javax.validation.Valid
 
 @RestController
@@ -41,9 +42,8 @@ class ProductController(private val productRepository: ProductRepository) {
     fun listByCategory(@PathVariable categoryId: Long) = productInterface.getProductsByCategory(categoryId)
 
     @PostMapping
-    fun create(@Valid @RequestBody product: Product) {
-        log.info("Mensaje de error")
-        productInterface.addProduct(product)
+    fun create(@Valid @RequestBody product: Product): ResponseEntity<Any> {
+        return ResponseEntity.of(Optional.of(productInterface.addProduct(product)))
     }
 
     @GetMapping("/get-algo")
@@ -51,10 +51,7 @@ class ProductController(private val productRepository: ProductRepository) {
         if (id == null) {
             return ResponseEntity(ErrorResponse(HttpStatus.BAD_REQUEST, "El parámetro de id es requerido"), HttpStatus.BAD_REQUEST)
         }
-        val product = productRepository.findById(id).orElse(null)
-        if (product == null) {
-            throw EntityNotExistException("Error del sistema")
-        }
+        val product = productRepository.findById(id).orElse(null) ?: throw EntityNotExistException("Error del sistema")
         val productDto = ProductDto(product.name, product.price!!, product.stock!!)
         return ResponseEntity.ok(productDto)
     }

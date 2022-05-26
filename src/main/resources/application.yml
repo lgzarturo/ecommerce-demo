@@ -1,0 +1,20 @@
+logging.level:
+  org.springframework.jdbc.datasource.init.ScriptUtils: DEBUG
+  com.revenatium.business.component: DEBUG
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:ecommerce-demo
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: h2
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: never
+  h2:
+    console:
+      enabled: true
+      path: /h2
